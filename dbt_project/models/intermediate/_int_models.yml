@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: int_products_enriched
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: price 
+        tests:
+          - not_null
+      - name: discount_price 
+        tests:
+          - not_null
+
+  - name: int_products_with_avg_rating
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: average_rating 
+        tests:
+          - not_null
+
+  - name: int_users_with_location
+    columns:
+      - name: user_id 
+        tests:
+          - unique
+          - not_null
+      - name: full_name  
+        tests:
+          - not_null
+      - name: city  
+        tests:
+          - not_null
+
+
+  - name: int_cart_summary
+    columns:
+      - name: cart_id  
+        tests:
+          - unique
+          - not_null
+      - name: total   
+        tests:
+          - not_null
+
+
+  - name: int_cart_items_with_product
+    columns:
+      - name: cart_id  
+        tests:
+          - not_null
+      - name: total   
+        tests:
+          - not_null
+
+  - name: int_user_cart_activity
+    columns:
+      - name: user_id   
+        tests:
+          - not_null
+      - name: cart_id    
+        tests:
+          - not_null
+      - name: total   
+        tests:
+          - not_null

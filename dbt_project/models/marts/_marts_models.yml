@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: mart_product_catalog
+    columns:
+      - name: product_id 
+        tests:
+          - unique
+          - not_null
+      - name: price 
+        tests:
+          - not_null
+      - name: category  
+        tests:
+          - not_null
+
+  - name: mart_category_performance
+    columns:
+      - name: category  
+        tests:
+          - unique
+          - not_null
+      - name: avg_price  
+        tests:
+          - not_null
+      - name: total_stock   
+        tests:
+          - not_null
+
+  - name: mart_low_stock_alerts
+    columns:
+      - name: product_id   
+        tests:
+          - unique
+          - not_null
+      - name: stock   
+        tests:
+          - not_null
+          
+  - name: mart_top_rated_products
+    columns:
+      - name: product_id    
+        tests:
+          - unique
+          - not_null
+      - name: average_rating    
+        tests:
+          - not_null
+                    
+  - name: mart_user_profile
+    columns:
+      - name: user_id     
+        tests:
+          - unique
+          - not_null
+      - name: email      
+        tests:
+          - unique
+          - not_null
+
+  - name: mart_user_demographics
+    columns:
+      - name: gender      
+        tests:
+          - unique
+          - not_null
+          
+  - name: mart_sales_summary
+    columns:
+      - name: total_revenue       
+        tests:
+          - not_null
+      - name: total_orders        
+        tests:
+          - not_null
+
+  - name: mart_customer_spend
+    columns:
+      - name: user_id        
+        tests:
+          - not_null
+          - unique
+      - name: lifetime_spend         
+        tests:
+          - not_null
+
+  - name: mart_revenue_by_category
+    columns:
+      - name: category         
+        tests:
+          - not_null
+          - unique
+      - name: revenue          
+        tests:
+          - not_null
