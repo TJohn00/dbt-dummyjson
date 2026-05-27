@@ -2,9 +2,8 @@ version: 2
 
 sources:
   - name: raw
-    database: DUMMYJSON
-    
-    schema: raw
+    database: "{{ env_var('DBT_DATABASE', '') }}"
+    schema: "{{ env_var('DBT_RAW_SCHEMA', '') }}"
     tables:
       - name: products
       - name: product_reviews

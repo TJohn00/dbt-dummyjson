@@ -1,5 +1,8 @@
 with source AS (
-    select *
+    select         
+    p.*,
+    c.name AS category_name,
+    c.url AS category_url
     from {{ref('stg_products')}} p
     inner join {{ref('stg_categories')}} c ON p.category=c.slug
 ),

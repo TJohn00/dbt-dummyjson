@@ -3,6 +3,8 @@ import json
 import pandas as pd
 from ingestion.snowflake_config import SNOWFLAKE_CONFIG
 from snowflake.connector.pandas_tools import write_pandas
+from datetime import datetime, timezone
+
 
 def get_con():
     con = sc.connect(
@@ -42,18 +44,22 @@ def load_products(data,con):
     df_products = pd.DataFrame(data)
     df_reviews = pd.DataFrame(all_reviews)
 
+    df_products["loaded_at"] = datetime.now(timezone.utc)
+
     df_products.columns = df_products.columns.str.upper()
     df_reviews.columns = df_reviews.columns.str.upper()
     
-    write_pandas(con,df_products,table_name="PRODUCTS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True)
-    write_pandas(con,df_reviews,table_name="PRODUCT_REVIEWS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True)
+    write_pandas(con,df_products,table_name="PRODUCTS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True, use_logical_type=True)
+    write_pandas(con,df_reviews,table_name="PRODUCT_REVIEWS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True, use_logical_type=True)
 
 def load_categories(data,con):
     df_categories = pd.DataFrame(data)
 
+    df_categories["loaded_at"] = datetime.now(timezone.utc)
+    
     df_categories.columns = df_categories.columns.str.upper()
 
-    write_pandas(con,df_categories,table_name="CATEGORIES",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True)
+    write_pandas(con,df_categories,table_name="CATEGORIES",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True, use_logical_type=True)
 
 def load_users(data,con):
     for user in data:
@@ -69,9 +75,11 @@ def load_users(data,con):
         del user["password"]
     df_users = pd.DataFrame(data)
 
+    df_users["loaded_at"] = datetime.now(timezone.utc)
+
     df_users.columns = df_users.columns.str.upper()
 
-    write_pandas(con,df_users,table_name="USERS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True)
+    write_pandas(con,df_users,table_name="USERS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True, use_logical_type=True)
 
 def load_carts(data,con):
     all_products = []
@@ -84,8 +92,11 @@ def load_carts(data,con):
     df_carts = pd.DataFrame(data)
     df_product_in_carts = pd.DataFrame(all_products)
 
+    df_carts["loaded_at"] = datetime.now(timezone.utc)
+    df_product_in_carts["loaded_at"] = datetime.now(timezone.utc)
+
     df_carts.columns = df_carts.columns.str.upper()
     df_product_in_carts.columns = df_product_in_carts.columns.str.upper()
 
-    write_pandas(con,df_carts,table_name="CARTS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True)
-    write_pandas(con,df_product_in_carts,table_name="CART_ITEMS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True)
+    write_pandas(con,df_carts,table_name="CARTS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True, use_logical_type=True)
+    write_pandas(con,df_product_in_carts,table_name="CART_ITEMS",schema="RAW",database="DUMMYJSON",auto_create_table=True, overwrite=True, use_logical_type=True)
