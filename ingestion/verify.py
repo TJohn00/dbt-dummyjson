@@ -1,6 +1,15 @@
-import duckdb
-con = duckdb.connect(r"C:\Users\Thomas\PythonProjects\dbt_dummyjson\DB\mydb.duckdb")
-print("categories",con.execute("DESCRIBE raw.categories").df())
-print("users",con.execute("DESCRIBE raw.users").df())
-print("carts",con.execute("DESCRIBE raw.carts").df())
-print("cart_items",con.execute("DESCRIBE raw.cart_items").df())
+import snowflake.connector
+from ingestion.snowflake_config import SNOWFLAKE_CONFIG
+
+con = snowflake.connector.connect(
+    account=SNOWFLAKE_CONFIG["account"],
+    user=SNOWFLAKE_CONFIG["user"],
+    password=SNOWFLAKE_CONFIG["password"],
+    warehouse=SNOWFLAKE_CONFIG["warehouse"],
+    database=SNOWFLAKE_CONFIG["database"],
+    schema=SNOWFLAKE_CONFIG["schema"]
+)
+
+print("Connected to Snowflake!")
+con.close()
+print("Connection closed.")
